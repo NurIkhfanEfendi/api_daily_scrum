@@ -33,6 +33,8 @@ class DailyController extends Controller
                     "activity_today"     => $p->activity_today,
                     "problem_yesterday"  => $p->problem_yesterday,
                     "solution"           => $p->solution,
+                    "created_at"         =>$p->created_at,
+                    "tanggal"            => date('D, j F Y', strtotime($p->created_at)),
 	            ];
 
 	            array_push($daily_scrum, $item);
@@ -55,16 +57,17 @@ class DailyController extends Controller
 	        $data["count"] = DailyScrum::count();
 	        $daily_scrum = array();
 	        $dataDaily = DB::table('daily_scrum')->join('user','user.id','=','daily_scrum.id_user')
-                                               ->select('daily_scrum.id', 'daily_scrum.id_user','user.firstname','user.lastname','user.email',
-                                               'daily_scrum.team','daily_scrum.activity_yesterday','daily_scrum.activity_today',
-                                               'daily_scrum.problem_yesterday','daily_scrum.solution')
+                                               ->select('daily_scrum.id', 'user.firstname','user.lastname','user.email', 
+                                               'daily_scrum.team','daily_scrum.id_user','daily_scrum.activity_yesterday',
+                                               'daily_scrum.activity_today','daily_scrum.problem_yesterday','daily_scrum.solution','daily_scrum.created_at')
                                                ->skip($offset)
                                                ->take($limit)
+                                               ->where('daily_scrum.id_user', $id_user)
 	                                           ->get();
 
 	        foreach ($dataDaily as $p) {
 	            $item = [
-                    "id"         	     => $p->id,
+                    "id"         	       => $p->id,
                     "id_user"            => $p->id_user,
                     "firstname"          => $p->firstname,
                     "lastname"           => $p->lastname,
@@ -74,6 +77,8 @@ class DailyController extends Controller
                     "activity_today"     => $p->activity_today,
                     "problem_yesterday"  => $p->problem_yesterday,
                     "solution"           => $p->solution,
+                    "created_at"         =>$p->created_at,
+                    "tanggal"            => date('D, j F Y', strtotime($p->created_at)),
 	            ];
 
 	            array_push($daily_scrum, $item);
