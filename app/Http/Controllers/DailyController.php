@@ -94,7 +94,6 @@ class DailyController extends Controller
     {
       try{
     		$validator = Validator::make($request->all(), [
-                'id_user'               => 'required|numeric',
     			'team'                  => 'required|string|max:255',
 				'activity_yesterday'	=> 'required|string|max:255',
                 'activity_today'  		=> 'required|string|max:255',
